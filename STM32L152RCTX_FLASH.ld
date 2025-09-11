@@ -73,7 +73,8 @@ _Min_Stack_Size = 0x400; /* required amount of stack */
 MEMORY
 {
   RAM    (xrw)    : ORIGIN = 0x20000000,   LENGTH = 32K
-  FLASH    (rx)    : ORIGIN = 0x8000000,   LENGTH = 256K
+  FLASH    (rx)    : ORIGIN = 0x8000000,   LENGTH = 224K /*flashtan alip my memory'e verdik*/
+  MY_MEMORY (rx)   : ORIGIN = 0x8018000,   LENGTH = 32K
 }
 
 /* Sections */
@@ -99,6 +100,16 @@ SECTIONS
 	{
 		KEEP(*(.myBufSectionFLASH))     
 	} > FLASH	
+	
+	.mysection :
+	{
+	  . = ALIGN(4);
+	  __mysection_start__ = .;
+	  *(.mysection*)
+	  __mysection_end__ = .;
+	} > MY_MEMORY
+	/*eger MY_MEMORY'de tasma olursa uyar*/
+	ASSERT(LENGTH(MY_MEMORY) >= (__mysection_end__-__mysection_start__), "MY_MEMORY memory overflowed")
 	
   /* The program code and other data into "FLASH" Rom type memory */
   .text :

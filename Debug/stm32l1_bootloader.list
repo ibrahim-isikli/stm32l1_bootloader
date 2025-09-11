@@ -9,47 +9,49 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
   2 .myBufBlocFLASH 0000000a  08001000  08001000  00002000  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .text         00001a6c  0800100c  0800100c  0000200c  2**2
-                  CONTENTS, ALLOC, LOAD, READONLY, CODE
-  4 .rodata       00000024  08002a78  08002a78  00003a78  2**2
-                  CONTENTS, ALLOC, LOAD, READONLY, DATA
-  5 .ARM.extab    00000000  08002a9c  08002a9c  0000418c  2**0
+  3 .mysection    00000000  08018000  08018000  0000418c  2**0
                   CONTENTS
-  6 .ARM          00000008  08002a9c  08002a9c  00003a9c  2**2
+  4 .text         00001a6c  0800100c  0800100c  0000200c  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  5 .rodata       00000024  08002a78  08002a78  00003a78  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  7 .preinit_array 00000000  08002aa4  08002aa4  0000418c  2**0
+  6 .ARM.extab    00000000  08002a9c  08002a9c  0000418c  2**0
+                  CONTENTS
+  7 .ARM          00000008  08002a9c  08002a9c  00003a9c  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  8 .preinit_array 00000000  08002aa4  08002aa4  0000418c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .init_array   00000004  08002aa4  08002aa4  00003aa4  2**2
+  9 .init_array   00000004  08002aa4  08002aa4  00003aa4  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  9 .fini_array   00000004  08002aa8  08002aa8  00003aa8  2**2
+ 10 .fini_array   00000004  08002aa8  08002aa8  00003aa8  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
- 10 .data         0000000c  20000180  08002aac  00004180  2**2
+ 11 .data         0000000c  20000180  08002aac  00004180  2**2
                   CONTENTS, ALLOC, LOAD, DATA
- 11 .bss          00000068  2000018c  08002ab8  0000418c  2**2
+ 12 .bss          00000068  2000018c  08002ab8  0000418c  2**2
                   ALLOC
- 12 ._user_heap_stack 00000604  200001f4  08002ab8  000041f4  2**0
+ 13 ._user_heap_stack 00000604  200001f4  08002ab8  000041f4  2**0
                   ALLOC
- 13 .ARM.attributes 00000029  00000000  00000000  0000418c  2**0
+ 14 .ARM.attributes 00000029  00000000  00000000  0000418c  2**0
                   CONTENTS, READONLY
- 14 .debug_info   000066c1  00000000  00000000  000041b5  2**0
+ 15 .debug_info   000066c1  00000000  00000000  000041b5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_abbrev 000012a3  00000000  00000000  0000a876  2**0
+ 16 .debug_abbrev 000012a3  00000000  00000000  0000a876  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_aranges 00000618  00000000  00000000  0000bb20  2**3
+ 17 .debug_aranges 00000618  00000000  00000000  0000bb20  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_rnglists 000004a6  00000000  00000000  0000c138  2**0
+ 18 .debug_rnglists 000004a6  00000000  00000000  0000c138  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_macro  000142a0  00000000  00000000  0000c5de  2**0
+ 19 .debug_macro  000142a0  00000000  00000000  0000c5de  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_line   000076f7  00000000  00000000  0002087e  2**0
+ 20 .debug_line   000076f7  00000000  00000000  0002087e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_str    0007eaa1  00000000  00000000  00027f75  2**0
+ 21 .debug_str    0007eaa1  00000000  00000000  00027f75  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .comment      00000043  00000000  00000000  000a6a16  2**0
+ 22 .comment      00000043  00000000  00000000  000a6a16  2**0
                   CONTENTS, READONLY
- 22 .debug_frame  00001808  00000000  00000000  000a6a5c  2**2
+ 23 .debug_frame  00001808  00000000  00000000  000a6a5c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 23 .debug_line_str 00000059  00000000  00000000  000a8264  2**0
+ 24 .debug_line_str 00000059  00000000  00000000  000a8264  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
