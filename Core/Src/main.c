@@ -44,7 +44,9 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 unsigned char __attribute__((section(".myBufSectionRAM"))) buf_ram[128];
-const unsigned char __attribute__((section(".myBufSectionFLASH"))) buf_flash[10];
+const unsigned char __attribute__((section(".myBufSectionFLASH"))) buf_flash[10] = {0,1,2,3,4,5,6,7,8,9};
+#define LOCATE_FUNC __attribute__((section(".mysection")))
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -52,12 +54,16 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
-
+void LOCATE_FUNC blink(uint32_t delay_tick);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void LOCATE_FUNC blink(uint32_t delay_tick)
+{
+	HAL_GPIO_TogglePin(USER_LED_GPIO_Port, USER_LED_Pin);
+	HAL_Delay(delay_tick);
+}
 /* USER CODE END 0 */
 
 /**
@@ -101,6 +107,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  blink(100);
   }
   /* USER CODE END 3 */
 }
@@ -188,11 +195,23 @@ static void MX_USART2_UART_Init(void)
   */
 static void MX_GPIO_Init(void)
 {
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
 /* USER CODE BEGIN MX_GPIO_Init_1 */
 /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : USER_LED_Pin */
+  GPIO_InitStruct.Pin = USER_LED_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(USER_LED_GPIO_Port, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
