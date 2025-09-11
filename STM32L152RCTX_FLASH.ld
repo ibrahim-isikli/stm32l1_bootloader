@@ -89,7 +89,7 @@ SECTIONS
 
 	/*tampon bolgede actigim ozel section'im*/
 	/*derleyici c kodunda __attribute__((section(".myBufSectionRAM"))) ile tanimladigim degiskenleri bu section'a koyacak*/
-	.myBufBlockRAM 0x20000100 :
+	.myBufBlockRAM 0x20000100 (NOLOAD) : /*NOLOAD: flash'a yazma(.hex'e ekleme), resette sifirlama yapma, ilk gucte garbage value at*/
 	{
 		KEEP(*(.myBufSectionRAM))     /*KEEP: degisken kullanilmasa bile bu section'da tut, atma*/
 	} > RAM

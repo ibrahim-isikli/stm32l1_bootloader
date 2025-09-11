@@ -6,16 +6,16 @@ Idx Name          Size      VMA       LMA       File off  Algn
   0 .isr_vector   0000013c  08000000  08000000  00001000  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   1 .myBufBlockRAM 00000080  20000100  20000100  00004100  2**2
-                  CONTENTS, ALLOC, LOAD, DATA
+                  ALLOC
   2 .text         00001a6c  0800013c  0800013c  0000113c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   3 .rodata       00000024  08001ba8  08001ba8  00002ba8  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  4 .ARM.extab    00000000  08001bcc  08001bcc  00004180  2**0
+  4 .ARM.extab    00000000  08001bcc  08001bcc  0000318c  2**0
                   CONTENTS
   5 .ARM          00000008  08001bcc  08001bcc  00002bcc  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  6 .preinit_array 00000000  08001bd4  08001bd4  00004180  2**0
+  6 .preinit_array 00000000  08001bd4  08001bd4  0000318c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
   7 .init_array   00000004  08001bd4  08001bd4  00002bd4  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
@@ -27,27 +27,27 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 ._user_heap_stack 00000604  200001f4  08001be8  000031f4  2**0
                   ALLOC
- 12 .ARM.attributes 00000029  00000000  00000000  00004180  2**0
+ 12 .ARM.attributes 00000029  00000000  00000000  0000318c  2**0
                   CONTENTS, READONLY
- 13 .debug_info   00006696  00000000  00000000  000041a9  2**0
+ 13 .debug_info   00006696  00000000  00000000  000031b5  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 000012a3  00000000  00000000  0000a83f  2**0
+ 14 .debug_abbrev 000012a3  00000000  00000000  0000984b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00000618  00000000  00000000  0000bae8  2**3
+ 15 .debug_aranges 00000618  00000000  00000000  0000aaf0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_rnglists 000004a6  00000000  00000000  0000c100  2**0
+ 16 .debug_rnglists 000004a6  00000000  00000000  0000b108  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  000142a0  00000000  00000000  0000c5a6  2**0
+ 17 .debug_macro  000142a0  00000000  00000000  0000b5ae  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   000076f7  00000000  00000000  00020846  2**0
+ 18 .debug_line   000076f7  00000000  00000000  0001f84e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    0007eaae  00000000  00000000  00027f3d  2**0
+ 19 .debug_str    0007ea97  00000000  00000000  00026f45  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000043  00000000  00000000  000a69eb  2**0
+ 20 .comment      00000043  00000000  00000000  000a59dc  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  00001808  00000000  00000000  000a6a30  2**2
+ 21 .debug_frame  00001808  00000000  00000000  000a5a20  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_line_str 00000070  00000000  00000000  000a8238  2**0
+ 22 .debug_line_str 00000059  00000000  00000000  000a7228  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
