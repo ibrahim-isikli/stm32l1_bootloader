@@ -94,6 +94,12 @@ SECTIONS
 		KEEP(*(.myBufSectionRAM))     /*KEEP: degisken kullanilmasa bile bu section'da tut, atma*/
 	} > RAM
 
+	/*flashin bos yerinde actigim ozel section'im*/
+	.myBufBlocFLASH 0x8001000 : 
+	{
+		KEEP(*(.myBufSectionFLASH))     
+	} > FLASH	
+	
   /* The program code and other data into "FLASH" Rom type memory */
   .text :
   {

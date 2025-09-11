@@ -44,6 +44,7 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 unsigned char __attribute__((section(".myBufSectionRAM"))) buf_ram[128];
+const unsigned char __attribute__((section(".myBufSectionFLASH"))) buf_flash[10];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
