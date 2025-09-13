@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -37,15 +37,20 @@
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 typedef void (*ptrF)(uint32_t dlyticks);
+typedef void (*pFunction)(void);
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
+#ifdef TUTORIAL
 unsigned char __attribute__((section(".myBufSectionRAM"))) buf_ram[128];
 const unsigned char __attribute__((section(".myBufSectionFLASH"))) buf_flash[10] = {0,1,2,3,4,5,6,7,8,9};
+#endif
+
 #define LOCATE_FUNC __attribute__((section(".mysection")))
+#define FLASH_APP_ADDR 0x8008000
 
 /* USER CODE END PV */
 
@@ -60,6 +65,7 @@ static ptrF Functions[] =
 {
 		blink
 };
+void go2APP(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -79,6 +85,64 @@ void __attribute__((__section__(".RamFunc"))) TurnOnLED(GPIO_PinState PinState)
 	else
 	{
 		USER_LED_GPIO_Port->BSRR = (uint32_t)USER_LED_Pin;
+	}
+}
+
+/*FLASH
+0x08004000  +-----------------------------+  ← APP2 tabanı = VTOR değeri
+            | VEKTÖR TABLOSU              |  [0] = başlangıç MSP (stack tepe değeri)
+            |  - [0] init MSP             |  [1] = Reset_Handler adresi
+            |  - [1] Reset_Handler        |  [2..] ISR adresleri
+            +-----------------------------+
+            | .text  (kod)                |
+            | .rodata (const)             |
+            | .data'nın FLASH kopyası     |  (resette RAM’e kopyalanır)
+            +-----------------------------+
+            | (kalan flash)               |
+            +-----------------------------+
+ * */
+
+/*RAM
+0x20008000  +-----------------------------+  ← _estack (MSP’nin başlangıç değeri)
+            |           STACK             |  ↓ aşağı doğru büyür
+            |  (fonksiyon çağrıları,      |
+            |   ISR'ler burada çerçeve     |
+            |   açar-kapatır)             |
+            +-----------------------------+
+            |        serbest alan         |  (stack ↔ heap tampon bölge)
+            +-----------------------------+
+            |           HEAP              |  ↑ yukarı büyür (malloc/new)
+            +-----------------------------+
+            | .bss  (sıfırlanır)          |
+            | .data (FLASH’tan kopya)     |
+0x20000000  +-----------------------------+
+ *
+ * */
+
+void go2APP(void)
+{
+	uint32_t jump_address;
+	pFunction jump_to_app;
+	printf("[SYSTEM]: BOOTLOADER START\r\n");
+
+	// --------------  flash app bolgesinde yuklu bir app var mi diye kontrol ediyoruz --------------------------------
+	// ( *(uint32_t*)FLASH_APP_ADDR ) -> vektor tablosundaki ilk word'u okur  yani MSP degerine bakiyoruz
+	// MSP degeri RAM'deki stack degerinin tepesini gosteriyor
+	// & 0x2FFE0000 -> bu maskelemenin amaci MSP degeri gercekten de RAM'i isaret ediyor mu
+	// MSP RAM'i gosteriyorsa -> burada gecerli bir app imaji var (kaba bir kontrol)
+	if(  (( *(uint32_t*)FLASH_APP_ADDR ) & 0x2FFE0000) == 0x20000000  )
+	{
+		printf("[SYSTEM]: APP START\r\n");
+		HAL_Delay(100);
+
+			// --------------------app'e atlama----------------------------------------
+		jump_address = *(uint32_t*)(FLASH_APP_ADDR + 4); // Reset handler adresini jump_addr olarak tut
+		// bu deger reset handler fonksiyonuna dallanacagimiz giris adresi
+		// neden buna ziplayacagiz -> cunku reset handler : .data kopyalama, .bss sifirlama, system clocklarini kurmayi halledip main()'e geciren gercek baslangic noktasi
+		jump_to_app = (pFunction) jump_address; // artik fonksiyon pointer'la fonksiyonlara erisebilirim
+
+		__set_MSP(*(uint32_t*)(FLASH_APP_ADDR)); // app'in stack pointerini kuruyoruz
+		jump_to_app();                           // app'in reset handler'ini cagiriyoruz
 	}
 }
 /* USER CODE END 0 */
