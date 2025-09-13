@@ -36,7 +36,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+typedef void (*ptrF)(uint32_t dlyticks);
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -45,7 +45,7 @@ UART_HandleTypeDef huart2;
 /* USER CODE BEGIN PV */
 unsigned char __attribute__((section(".myBufSectionRAM"))) buf_ram[128];
 const unsigned char __attribute__((section(".myBufSectionFLASH"))) buf_flash[10] = {0,1,2,3,4,5,6,7,8,9};
-//#define LOCATE_FUNC __attribute__((section(".mysection")))
+#define LOCATE_FUNC __attribute__((section(".mysection")))
 
 /* USER CODE END PV */
 
@@ -54,17 +54,21 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
-//void LOCATE_FUNC blink(uint32_t delay_tick);
+void LOCATE_FUNC blink(uint32_t delay_tick);
 void __attribute__((__section__(".RamFunc"))) TurnOnLED(GPIO_PinState PinState);
+static ptrF Functions[] =
+{
+		blink
+};
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-/*void LOCATE_FUNC blink(uint32_t delay_tick)
+void LOCATE_FUNC blink(uint32_t delay_tick)
 {
 	HAL_GPIO_TogglePin(USER_LED_GPIO_Port, USER_LED_Pin);
 	HAL_Delay(delay_tick);
-}*/
+}
 
 void __attribute__((__section__(".RamFunc"))) TurnOnLED(GPIO_PinState PinState)
 {
@@ -74,7 +78,7 @@ void __attribute__((__section__(".RamFunc"))) TurnOnLED(GPIO_PinState PinState)
 	}
 	else
 	{
-		USER_LED_GPIO_Port->BSRR ^= (uint32_t)USER_LED_Pin;
+		USER_LED_GPIO_Port->BSRR = (uint32_t)USER_LED_Pin;
 	}
 }
 /* USER CODE END 0 */
@@ -121,7 +125,8 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  //blink(100);
-	  TurnOnLED(USER_LED_Pin);
+	  //TurnOnLED(0);
+	  (*Functions[0])(100);
   }
   /* USER CODE END 3 */
 }
