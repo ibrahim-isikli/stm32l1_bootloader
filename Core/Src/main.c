@@ -59,13 +59,17 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
+int _write(int file, char*ptr, int len);
 void LOCATE_FUNC blink(uint32_t delay_tick);
 void __attribute__((__section__(".RamFunc"))) TurnOnLED(GPIO_PinState PinState);
+#ifdef TUTORIAL
 static ptrF Functions[] =
 {
 		blink
 };
+#endif
 void go2APP(void);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -144,6 +148,20 @@ void go2APP(void)
 		__set_MSP(*(uint32_t*)(FLASH_APP_ADDR)); // app'in stack pointerini kuruyoruz
 		jump_to_app();                           // app'in reset handler'ini cagiriyoruz
 	}
+	else
+	{
+		printf("[SYSTEM]: APP NOT FOUND\r\n");
+	}
+}
+
+int _write(int file, char*ptr, int len)
+{
+	int data_idx;
+
+	for(data_idx = 0; data_idx < len; data_idx++)
+		HAL_UART_Transmit(&huart2, (uint8_t*)ptr++, 1, 100);
+
+	return len;
 }
 /* USER CODE END 0 */
 
@@ -190,7 +208,10 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  //blink(100);
 	  //TurnOnLED(0);
+#ifdef TUTORIAL
 	  (*Functions[0])(100);
+#endif
+	  go2APP();
   }
   /* USER CODE END 3 */
 }
