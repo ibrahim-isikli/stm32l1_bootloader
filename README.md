@@ -1,6 +1,9 @@
 # stm32l1_bootloader
 ## simple bootloader for stm32l1
 <img width="1891" height="1017" alt="image" src="https://github.com/user-attachments/assets/0bf83a61-eb07-4faf-b30a-83d18ac1fa5b" />
+https://github.com/user-attachments/assets/61cf27cb-da14-4e01-8a5e-09f52eefea33
+
+## how to work
 
 ## tutorial
 <img width="703" height="588" alt="image" src="https://github.com/user-attachments/assets/e9b2814e-8c2b-4325-9943-d5d9d1f423a0" />
