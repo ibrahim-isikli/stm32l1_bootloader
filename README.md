@@ -8,25 +8,25 @@ https://github.com/user-attachments/assets/61cf27cb-da14-4e01-8a5e-09f52eefea33
 
 ### Linker’da bellek yerleşimi (BOOT) ###
 ```
-FLASH (ör.)
-0x0800_0000  +-----------------------------+  BOOT vektör tablosu (.isr_vector)
-             |    BOOT .text / .rodata    |  (BOOT kod/sabitler)
-             +-----------------------------+
-             |    (BOOT kalan FLASH)      |
-             +-----------------------------+  ← FLASH_APP_ADDR (örn. 0x0800_8000)
-             |   APP alanı (ayrı proje)   |  (APP vektör tablosu + APP kodu)
-             +-----------------------------+
-
-RAM (ör. 32 KB)
-0x2000_8000  +-----------------------------+  _estack  (MSP başlangıcı)
-             |           STACK             |  (aşağı büyür)
-             +-----------------------------+
-             |       serbest/tampon        |  (özel section ayırılabilir)
-             +-----------------------------+
-             |            HEAP             |  (yukarı büyür)
-             +-----------------------------+
-             | .bss / .data (BOOT)         |
-0x2000_0000  +-----------------------------+
+FLASH (32 KB)
+0x0800_0000                  +-----------------------------+  BOOT vektör tablosu (.isr_vector)
+                             |    BOOT .text / .rodata    |  (BOOT kod/sabitler)
+MY_MEMORY (32KB)             +-----------------------------+
+                             |    (BOOT kalan FLASH)      |
+                             +-----------------------------+  ← API_SHARED 0x8018000
+                             |   APP alanı (ayrı proje)   |  (APP vektör tablosu + APP kodu)
+                             +-----------------------------+
+                
+                RAM (32 KB)
+                0x2000_8000  +-----------------------------+  _estack  (MSP başlangıcı)
+                             |           STACK             |  (aşağı büyür)
+                             +-----------------------------+
+                             |       serbest/tampon        |  (özel section ayırılabilir)
+                             +-----------------------------+
+                             |            HEAP             |  (yukarı büyür)
+                             +-----------------------------+
+                             | .bss / .data (BOOT)         |
+                0x2000_0000  +-----------------------------+
 ```
 * Linker script: FLASH/RAM sınırları, vektör tablosu konumu ve minimum stack/heap’i tanımlar.
 * APP için kullanılacak FLASH bölgesi, BOOT alanından sonra başlar (sembolik: FLASH_APP_ADDR).
