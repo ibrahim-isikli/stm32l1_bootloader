@@ -4,7 +4,7 @@
 
 https://github.com/user-attachments/assets/61cf27cb-da14-4e01-8a5e-09f52eefea33
 
-## how to work
+## how it works
 
 ### Linker’da bellek yerleşimi (BOOT) ###
 ```
@@ -178,3 +178,12 @@ api->Blink(...)  →  tabloda kayıtlı adrese dal → BOOT’taki Blink()
 <img width="695" height="480" alt="image" src="https://github.com/user-attachments/assets/499e108d-a3aa-4864-b3b9-0a5f7dd1af74" />
 <img width="678" height="413" alt="image" src="https://github.com/user-attachments/assets/7144542e-cd47-4a69-858f-1e34f1a76ac4" />
 
+
+
+
+## References
+
+- STMicroelectronics — [How to Create a Super Simple Bootloader (YouTube playlist)](https://www.youtube.com/playlist?list=PLnMKNibPkDnEb1sphpdFJ3bR9dNy7S6mO)
+
+**Acknowledgment:**  
+This repository reimplements ideas demonstrated in the STMicroelectronics videos linked above. All credits for the original tutorial content belong to STMicroelectronics.
