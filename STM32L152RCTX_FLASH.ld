@@ -99,7 +99,13 @@ SECTIONS
 	.myBufBlocFLASH 0x8001000 : 
 	{
 		KEEP(*(.myBufSectionFLASH))     
-	} > FLASH	
+	} > FLASH
+	
+	/*API (app) icin olusturdugumuz section*/
+	.API_SHARED 0x8018000 :
+	{
+		KEEP(*(.API_SHARED))
+	} > MY_MEMORY
 	
 	.mysection :
 	{

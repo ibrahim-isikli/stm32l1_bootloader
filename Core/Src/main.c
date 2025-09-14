@@ -38,6 +38,17 @@
 /* USER CODE BEGIN PM */
 typedef void (*ptrF)(uint32_t dlyticks);
 typedef void (*pFunction)(void);
+//-------------API HEADER'in olusturulmasi--------------------
+// burada bootloader ve api ayni yapiyi kullanmasi gerektigi icin bir template sarti koyuyoruz
+// butlooder basta api su yapida diye belirtir ->struct bootloder_api{}
+// bu hedarin aynisi api'de de tanimlanir boylelikle alanlarin sirasi ve imzasi ayni kalir
+struct BootloaderSharedAPI
+{
+	void(*blink)(uint32_t dlyticks);
+	void(*turn_on_led)(void);
+	void(*turn_off_ked)(void);
+};
+// daha sonra boot tarafi icin tabloyu dolduracagiz
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -60,7 +71,9 @@ static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
 int _write(int file, char*ptr, int len);
-void LOCATE_FUNC blink(uint32_t delay_tick);
+void LOCATE_FUNC blink(uint32_t delay_tick); // bu fonksiyonlar MY_MEMORY icindeki msection section'inda
+void LOCATE_FUNC turn_on_led(void);
+void LOCATE_FUNC turn_off_led(void);
 void __attribute__((__section__(".RamFunc"))) TurnOnLED(GPIO_PinState PinState);
 #ifdef TUTORIAL
 static ptrF Functions[] =
@@ -163,6 +176,25 @@ int _write(int file, char*ptr, int len)
 
 	return len;
 }
+
+void LOCATE_FUNC turn_on_led(void)
+{
+	HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_SET);
+}
+
+void LOCATE_FUNC turn_off_led(void)
+{
+	HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, GPIO_PIN_RESET);
+}
+
+//--------------------------API TABLOSUNU DOLDURMA (HEADER REFARANSINA GORE OLMALI)---------------
+// iste bu asamada gercekten bu api tablosunu dolduruyor, fonksiyon adreslerini iceren bir struct
+// bu fonksiyon adresleri -> api'daki gercek fonksiyonlari isaret ediyor, apiya dallandiriyor
+struct BootloaderSharedAPI api __attribute__((section(".API_SHARED"))) ={
+		blink,
+		turn_on_led,
+		turn_off_led
+};
 /* USER CODE END 0 */
 
 /**
